@@ -1,0 +1,4 @@
+.idea
+*.releaseBackup
+release.properties
+target
