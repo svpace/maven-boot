@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.svpace.maven.boot</groupId>
 	<artifactId>maven-boot-parent</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>A collection of Maven POM boilerplates designed to streamline
 		project initialization with up-to-date plugins and conventions</description>
@@ -27,9 +27,9 @@
 	<scm>
 		<connection>scm:git:https://github.com/svpace/maven-boot.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/svpace/maven-boot.git</developerConnection>
+		<tag>HEAD</tag>
 		<url>${project.url}</url>
-	  <tag>v1.1.0</tag>
-  </scm>
+	</scm>
 	<properties>
 		<extra-enforcer-rules.version>1.8.0</extra-enforcer-rules.version>
 		<maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
@@ -67,6 +67,7 @@
 								<sortModules>true</sortModules>
 								<sortPlugins>${sortpom-maven-plugin.order}</sortPlugins>
 								<sortProperties>true</sortProperties>
+								<spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
 							</sortPom>
 						</pom>
 					</configuration>
