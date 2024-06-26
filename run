@@ -3,137 +3,14 @@ set -Eeuo pipefail
 
 IFS=$'\t\n'
 
-plugins="
-	com.diffplug.spotless spotless-maven-plugin
-	assembly
-	clean
-	compiler
-	dependency
-	deploy
-	enforcer
-	failsafe
-	install
-	invoker
-	jar
-	javadoc
-	release
-	resources
-	shade
-	site
-	surefire
-	org.codehaus.mojo build-helper-maven-plugin
-	org.codehaus.mojo versions-maven-plugin
-"
-
-print() {
-	tr -d ';' | rg -v '^\s*$'
-}
-
-plugin-gav() {
-	if [ $# -eq 1 ]; then
-		set -- "org.apache.maven.plugins" "maven-$1-plugin"  
-	fi
-	print <<-EOF
-	;				<plugin>
-	;					<groupId>$1</groupId>
-	;					<artifactId>$2</artifactId>
-	;					<version>\${$2.version}</version>
-	;$(plugin-config "$2")
-	;				</plugin>
-	EOF
-}
-
-plugin-config() {
-	case $1 in
-		maven-release-plugin)
-			cat<<-EOF  | tr -d ';'
-			;					<configuration>
-			;						<autoVersionSubmodules>true</autoVersionSubmodules>
-			;						<projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
-			;						<tagNameFormat>v@{project.version}</tagNameFormat>
-			;					</configuration>
-			EOF
-			;;
-		maven-enforcer-plugin)
-			print <<-EOF
-			;					<configuration>
-			;						<rules>
-			;							<requireMavenVersion>
-			;								<version>3.8</version>
-			;							</requireMavenVersion>
-			;							<requireNoRepositories/>
-			;							<requirePluginVersions/>
-			;							<banCircularDependencies/>
-			;							<requireEncoding>
-			;								<encoding>\${project.build.sourceEncoding}</encoding>
-			;								<acceptAsciiSubset>true</acceptAsciiSubset>
-			;							</requireEncoding>
-			;						</rules>
-			;					</configuration>
-			;					<dependencies>
-			;						<dependency>
-			;							<groupId>org.codehaus.mojo</groupId>
-			;							<artifactId>extra-enforcer-rules</artifactId>
-			;							<version>\${extra-enforcer-rules.version}</version>
-			;						</dependency>
-			;					</dependencies>
-			;					<executions>
-			;						<execution>
-			;							<id>enforce-maven</id>
-			;							<goals>
-			;								<goal>enforce</goal>
-			;							</goals>
-			;						</execution>
-			;					</executions>
-			EOF
-			;;
-		default) ;;
-	esac
-}
-
-
-run-plugins() {
-	run-plugins-${@:-help}
-}
-
-run-plugins-gavs() {
-	for it in ${plugins}; do
-		echo $it
-		plugin-gav $it
-	done
-}
-
-run-plugins-versions() {
-	for it in ${plugins[@]}; do
-		run-plugin-version "$it"
-	done
-}
-
 run-update() {
+		xsltproc tools/spring.xslt plain/pom.xml \
+		| unexpand -t2 > spring/pom.xml
     mvn \
         spotless:apply \
         versions:update-properties \
         versions:update-parent \
         versions:commit
-}
-
-run-plugin() {
-	run-plugin-${@:-help}
-}
-
-run-plugin-gav() {
-	plugin-gav "$@"
-}
-
-run-plugin-release() {
-	curl -fLsS "https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-$1-plugin/maven-metadata.xml" \
-	| yq -px '.metadata.versioning.release'
-}
-
-run-plugin-version() {
-	cat<<-EOF | tr -d ';'
-		;	<maven-$1-plugin.version>$(run-plugin-release $1)</maven-$1-plugin.version>
-	EOF
 }
 
 run-${@:-help}

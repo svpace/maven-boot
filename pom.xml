@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.github.svpace</groupId>
-	<artifactId>maven-boot</artifactId>
+	<groupId>io.github.svpace.maven.boot</groupId>
+	<artifactId>maven-boot-parent</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<description>
-		A collection of Maven POM boilerplates designed to streamline
-		project initialization with up-to-date plugins and conventions
-	</description>
+	<description>A collection of Maven POM boilerplates designed to streamline
+		project initialization with up-to-date plugins and conventions</description>
 	<url>https://github.com/svpace/maven-boot</url>
 	<licenses>
 		<license>
@@ -30,10 +28,16 @@
 		<connection>scm:git:https://github.com/svpace/maven-boot.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/svpace/maven-boot.git</developerConnection>
 		<url>${project.url}</url>
-	  <tag>v1.0.0</tag>
-  </scm>
+	</scm>
 	<properties>
+		<extra-enforcer-rules.version>1.8.0</extra-enforcer-rules.version>
+		<maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+		<maven-deploy-plugin.version>3.1.2</maven-deploy-plugin.version>
+		<maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+		<maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+		<maven-install-plugin.version>3.1.2</maven-install-plugin.version>
 		<maven-release-plugin.version>3.1.0</maven-release-plugin.version>
+		<maven-site-plugin.version>3.12.1</maven-site-plugin.version>
 		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
 		<project.encoding>UTF-8</project.encoding>
 		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
@@ -44,6 +48,7 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+
 				<plugin>
 					<groupId>com.diffplug.spotless</groupId>
 					<artifactId>spotless-maven-plugin</artifactId>
@@ -67,6 +72,61 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven-clean-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven-deploy-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>${maven-enforcer-plugin.version}</version>
+					<configuration>
+						<rules>
+							<requireMavenVersion>
+								<version>3.8</version>
+							</requireMavenVersion>
+							<requireNoRepositories/>
+							<requirePluginVersions/>
+							<requireEncoding>
+								<encoding>${project.build.sourceEncoding}</encoding>
+								<acceptAsciiSubset>true</acceptAsciiSubset>
+							</requireEncoding>
+						</rules>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>extra-enforcer-rules</artifactId>
+							<version>${extra-enforcer-rules.version}</version>
+						</dependency>
+					</dependencies>
+
+					<executions>
+						<execution>
+							<id>enforce-maven</id>
+							<goals>
+								<goal>enforce</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>${maven-gpg-plugin.version}</version>
+
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven-install-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>${maven-release-plugin.version}</version>
 					<configuration>
@@ -75,6 +135,11 @@
 						<projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${maven-site-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -93,6 +158,12 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 	<profiles>
 		<profile>

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.github.svpace</groupId>
+	<groupId>io.github.svpace.maven.boot</groupId>
 	<artifactId>maven-boot-plain</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
+		<assertj.version>3.26.0</assertj.version>
+		<awaitility.version>4.2.1</awaitility.version>
 		<build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
 		<extra-enforcer-rules.version>1.8.0</extra-enforcer-rules.version>
+		<git-commit-id-maven-plugin.version>9.0.0</git-commit-id-maven-plugin.version>
 		<java.version>21</java.version>
 		<junit-jupiter.version>5.10.2</junit-jupiter.version>
 		<maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
@@ -28,20 +31,41 @@
 		<maven-site-plugin.version>3.12.1</maven-site-plugin.version>
 		<maven-surefire-plugin.version>3.3.0</maven-surefire-plugin.version>
 		<maven.compiler.release>${java.version}</maven.compiler.release>
+		<mockito.version>5.12.0</mockito.version>
 		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
 		<project.encoding>UTF-8</project.encoding>
 		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
 		<slf4j.version>2.0.13</slf4j.version>
 		<sortpom-maven-plugin.order>groupId,artifactId</sortpom-maven-plugin.order>
 		<spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
+		<testcontainers.version>1.19.8</testcontainers.version>
 		<versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>org.assertj</groupId>
+				<artifactId>assertj-bom</artifactId>
+				<version>${assertj.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.awaitility</groupId>
+				<artifactId>awaitility</artifactId>
+				<version>${awaitility.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.junit</groupId>
 				<artifactId>junit-bom</artifactId>
 				<version>${junit-jupiter.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-bom</artifactId>
+				<version>${mockito.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -51,6 +75,11 @@
 				<version>${slf4j.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.testcontainers</groupId>
+				<artifactId>testcontainers-bom</artifactId>
+				<version>${testcontainers.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -63,7 +92,7 @@
 					<version>${spotless-maven-plugin.version}</version>
 					<configuration>
 						<java>
-							<palantirJavaFormat />
+							<palantirJavaFormat/>
 							<indent>
 								<tabs>true</tabs>
 							</indent>
@@ -126,9 +155,9 @@
 							<requireMavenVersion>
 								<version>3.8</version>
 							</requireMavenVersion>
-							<requireNoRepositories />
-							<requirePluginVersions />
-							<banCircularDependencies />
+							<requireNoRepositories/>
+							<requirePluginVersions/>
+							<banCircularDependencies/>
 							<requireEncoding>
 								<encoding>${project.build.sourceEncoding}</encoding>
 								<acceptAsciiSubset>true</acceptAsciiSubset>
@@ -233,6 +262,12 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 	<profiles>
 		<profile>

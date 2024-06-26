@@ -11,7 +11,7 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="p:modelVersion">
+	<!--xsl:template match="p:modelVersion">
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*"/>
 		</xsl:copy>
@@ -22,7 +22,16 @@
 			<relativePath/>
 		</xsl:element>
 
-	</xsl:template>
+	</xsl:template-->
 
-	<xsl:template match="p:project/p:artifactId/text()">maven-boot-spring</xsl:template>
+	<xsl:template match="p:project/p:artifactId/text()">maven-boot-parent</xsl:template>
+	<xsl:template match="p:assertj.version"/>
+	<xsl:template match="p:awaitility.version"/>
+	<xsl:template match="p:build-helper-maven-plugin.version"/>
+	<xsl:template match="p:git-commit-id-maven-plugin.version"/>
+	<xsl:template match="p:java.version"/>
+	<xsl:template match="p:junit-jupiter.version"/>
+	<xsl:template match="p:maven-assembly-plugin.version"/>
+	<xsl:template match="p:maven-compiler-plugin.version"/>
+	<xsl:template match="p:plugin[p:artifactId/text() = 'maven-compiler-plugin']"/>
 </xsl:stylesheet>
