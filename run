@@ -4,7 +4,7 @@ set -Eeuo pipefail
 IFS=$'\t\n'
 
 run-update() {
-		xsltproc tools/spring.xslt plain/pom.xml \
+		xsltproc spring/spring.xslt pom.xml \
 		| unexpand -t2 > spring/pom.xml
     mvn \
         spotless:apply \

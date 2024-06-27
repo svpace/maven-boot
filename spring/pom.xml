@@ -11,6 +11,27 @@
 	<artifactId>maven-boot-spring</artifactId>
 	<version>1.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<description>A collection of Maven POM boilerplates designed to streamline
+		project initialization with up-to-date plugins and conventions</description>
+	<url>https://github.com/svpace/maven-boot</url>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Sérgio Vale e Pace</name>
+			<email>svpace@gmail.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:https://github.com/svpace/maven-boot.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/svpace/maven-boot.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>${project.url}</url>
+	</scm>
 	<properties>
 		<assertj.version>3.26.0</assertj.version>
 		<awaitility.version>4.2.1</awaitility.version>
@@ -227,6 +248,7 @@
 					<version>${maven-release-plugin.version}</version>
 					<configuration>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<goals>install</goals>
 						<projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
 					</configuration>

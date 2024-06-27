@@ -11,7 +11,9 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="p:modelVersion">
+	<xsl:template match="/p:project/p:modules"/>
+
+	<xsl:template match="/p:project/p:modelVersion">
 		<xsl:copy>
 			<xsl:apply-templates select="node()|@*"/>
 		</xsl:copy>
@@ -21,8 +23,7 @@
 			<version>3.3.1</version>
 			<relativePath/>
 		</xsl:element>
-
 	</xsl:template>
 
-	<xsl:template match="p:project/p:artifactId/text()">maven-boot-spring</xsl:template>
+	<xsl:template match="/p:project/p:artifactId/text()">maven-boot-spring</xsl:template>
 </xsl:stylesheet>
