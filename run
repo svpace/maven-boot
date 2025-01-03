@@ -3,9 +3,13 @@ set -Eeuo pipefail
 
 IFS=$'\t\n'
 
+run-apply() {
+	xsltproc spring/spring.xslt pom.xml \
+	| unexpand -t2 > spring/pom.xml
+}
+
 run-update() {
-		xsltproc spring/spring.xslt pom.xml \
-		| unexpand -t2 > spring/pom.xml
+	run-apply
     mvn \
         spotless:apply \
         versions:update-properties \
@@ -13,4 +17,4 @@ run-update() {
         versions:commit
 }
 
-run-${@:-help}
+"run-${@:-usage}"
