@@ -3,6 +3,16 @@ set -Eeuo pipefail
 
 IFS=$'\t\n'
 
+run-help() {
+	cat <<-'EOF' >&2
+		Usage: run <command>
+		Commands:
+		- help      This help text
+		- apply     Apply changes to sub-modules
+		- update    Update dependencies
+		- plugin    Plugins sub-commands
+	EOF
+}
 run-apply() {
 	xsltproc spring/spring.xslt pom.xml \
 	| unexpand -t2 > spring/pom.xml
@@ -17,4 +27,21 @@ run-update() {
         versions:commit
 }
 
-"run-${@:-usage}"
+run-plugin() {
+	"run-plugin-${@:-help}"
+}
+
+run-plugin-help() {
+	cat <<-'EOF' >&2
+		Usage: run plugin <command>
+		Commands:
+		- report      Show plugin updates report
+	EOF
+}
+
+run-plugin-report() {
+	mvn versions:plugin-updates-aggregate-report
+	xdg-open target/reports/plugin-updates-aggregate-report.html
+}
+
+"run-${@:-help}"

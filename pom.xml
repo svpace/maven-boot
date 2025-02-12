@@ -21,7 +21,6 @@
 		</developer>
 	</developers>
 	<modules>
-		<module>demo</module>
 		<module>spring</module>
 	</modules>
 	<scm>
@@ -30,10 +29,21 @@
 		<tag>HEAD</tag>
 		<url>${project.url}</url>
 	</scm>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>central</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>central</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 	<properties>
-		<assertj.version>3.27.1</assertj.version>
+		<assertj.version>3.27.3</assertj.version>
 		<awaitility.version>4.2.2</awaitility.version>
 		<build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+		<central-publishing-maven-plugin.version>0.7.0</central-publishing-maven-plugin.version>
 		<extra-enforcer-rules.version>1.9.0</extra-enforcer-rules.version>
 		<git-commit-id-maven-plugin.version>9.0.0</git-commit-id-maven-plugin.version>
 		<java.version>21</java.version>
@@ -63,7 +73,7 @@
 		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
 		<slf4j.version>2.0.16</slf4j.version>
 		<sortpom-maven-plugin.order>groupId,artifactId</sortpom-maven-plugin.order>
-		<spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
+		<spotless-maven-plugin.version>2.44.2</spotless-maven-plugin.version>
 		<testcontainers.version>1.20.4</testcontainers.version>
 		<versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 	</properties>
@@ -115,6 +125,23 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -254,7 +281,6 @@
 					<artifactId>maven-invoker-plugin</artifactId>
 					<version>${maven-invoker-plugin.version}</version>
 				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
@@ -318,6 +344,15 @@
 						</ruleSet>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<version>${central-publishing-maven-plugin.version}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<publishingServerId>central</publishingServerId>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -339,6 +374,10 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
 					</plugin>
 				</plugins>
 			</build>
