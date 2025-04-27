@@ -1,30 +1,33 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
+set -Exeuo pipefail
 
 IFS=$'\t\n'
 
 run-help() {
 	cat <<-'EOF' >&2
 		Usage: run <command>
-		Commands:
+
+		Executes the specified subcommand.
+
+		Available subcommands:
 		- help      This help text
-		- apply     Apply changes to sub-modules
 		- update    Update dependencies
 		- plugin    Plugins sub-commands
 	EOF
 }
-run-apply() {
+
+run-sync() {
 	xsltproc spring/spring.xslt pom.xml \
 	| unexpand -t2 > spring/pom.xml
 }
 
 run-update() {
-	run-apply
-    mvn \
-        spotless:apply \
+	run-sync
+    mvn --activate-profiles release \
         versions:update-properties \
         versions:update-parent \
-        versions:commit
+        versions:commit \
+        spotless:apply
 }
 
 run-plugin() {
@@ -34,7 +37,10 @@ run-plugin() {
 run-plugin-help() {
 	cat <<-'EOF' >&2
 		Usage: run plugin <command>
-		Commands:
+
+		Execute plugin related subcommands.
+
+		Available subcommands:
 		- report      Show plugin updates report
 	EOF
 }
