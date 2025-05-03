@@ -65,7 +65,7 @@
 		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
 		<project.encoding>UTF-8</project.encoding>
 		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
-		<repository.url>git@github.com/svpace/maven-boot.git</repository.url>
+		<repository.url>ssh://git@github.com/svpace/maven-boot.git</repository.url>
 		<slf4j.version>2.0.17</slf4j.version>
 		<sortpom-maven-plugin.order>groupId,artifactId</sortpom-maven-plugin.order>
 		<spotless-maven-plugin.version>2.44.4</spotless-maven-plugin.version>
