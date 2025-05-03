@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>io.github.svpace.maven.boot</groupId>
 	<artifactId>maven-boot-spring</artifactId>
-	<version>1.2.7-SNAPSHOT</version>
+	<version>1.2.7</version>
 	<packaging>pom</packaging>
 	<description>A collection of Maven POM boilerplates designed to streamline
 		project initialization with up-to-date plugins and conventions</description>
@@ -29,7 +29,7 @@
 	<scm>
 		<connection>scm:git:${repository.url}</connection>
 		<developerConnection>scm:git:${repository.url}</developerConnection>
-		<tag>HEAD</tag>
+		<tag>v1.2.7</tag>
 		<url>${repository.url}</url>
 	</scm>
 	<properties>
