@@ -20,14 +20,14 @@
 			<email>svpace@gmail.com</email>
 		</developer>
 	</developers>
-	<!--modules>
+	<modules>
 		<module>spring</module>
-	</modules-->
+	</modules>
 	<scm>
-		<connection>scm:git:https://github.com/svpace/maven-boot.git</connection>
-		<developerConnection>scm:git:https://github.com/svpace/maven-boot.git</developerConnection>
+		<connection>scm:git:${repository.url}</connection>
+		<developerConnection>scm:git:${repository.url}</developerConnection>
 		<tag>HEAD</tag>
-		<url>${project.url}</url>
+		<url>${repository.url}</url>
 	</scm>
 	<properties>
 		<assertj.version>3.27.3</assertj.version>
@@ -65,6 +65,7 @@
 		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
 		<project.encoding>UTF-8</project.encoding>
 		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
+		<repository.url>git@github.com/svpace/maven-boot.git</repository.url>
 		<slf4j.version>2.0.17</slf4j.version>
 		<sortpom-maven-plugin.order>groupId,artifactId</sortpom-maven-plugin.order>
 		<spotless-maven-plugin.version>2.44.4</spotless-maven-plugin.version>

@@ -35,7 +35,8 @@ jobs:
             --activate-profiles release \
             release:prepare \
             release:perform \
-            -Darguments="--no-transfer-progress"
+            -Darguments="--no-transfer-progress" \
+            -Drepository.url=https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}

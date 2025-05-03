@@ -2,3 +2,4 @@
 *.releaseBackup
 release.properties
 target
+.vscode/
