@@ -30,6 +30,7 @@
 		<url>${repository.url}</url>
 	</scm>
 	<properties>
+		<argLine />
 		<assertj.version>3.27.3</assertj.version>
 		<awaitility.version>4.3.0</awaitility.version>
 		<build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
