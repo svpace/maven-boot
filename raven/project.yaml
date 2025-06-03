@@ -1,0 +1,229 @@
+schema: 1.0.0
+id: io.github.svpace.maven.boot:maven-boot
+version: 1.2.9-SNAPSHOT
+type: pom
+description: |
+  A collection of Maven POM boilerplates designed to streamline
+  project initialization with up-to-date plugins and conventions
+url: https://github.com/svpace/maven-boot
+licenses:
+  - name: Apache License, Version 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.txt
+developers:
+  - name: Sérgio Vale e Pace
+    email: svpace@gmail.com
+scm:
+  connection: "scm:git:${repository.url}"
+  developerConnection: "scm:git:${repository.url}"
+  tag: HEAD
+  url: "${repository.url}"
+
+properties:
+  argLine:
+  assertj.version: 3.27.3
+  awaitility.version: 4.3.0
+  build-helper-maven-plugin.version: 3.6.0
+  central-publishing-maven-plugin.version: 0.7.0
+  extra-enforcer-rules.version: 1.10.0
+  git-commit-id-maven-plugin.version: 9.0.0
+  java.version: 21
+  jspecify.version: 1.0.0
+  junit-jupiter.version: 5.12.2
+  lombok-mapstruct-binding.version: 0.2.0
+  lombok.version: 1.18.38
+  mapstruct.version: 1.6.3
+  maven-assembly-plugin.version: 3.7.1
+  maven-clean-plugin.version: 3.4.1
+  maven-compiler-plugin.version: 3.14.0
+  maven-dependency-plugin.version: 3.8.1
+  maven-deploy-plugin.version: 3.1.4
+  maven-enforcer-plugin.version: 3.5.0
+  maven-failsafe-plugin.version: 3.3.0
+  maven-gpg-plugin.version: 3.2.7
+  maven-install-plugin.version: 3.1.4
+  maven-invoker-plugin.version: 3.9.0
+  maven-jar-plugin.version: 3.4.2
+  maven-javadoc-plugin.version: 3.11.2
+  maven-release-plugin.version: 3.1.1
+  maven-resources-plugin.version: 3.3.1
+  maven-shade-plugin.version: 3.6.0
+  maven-site-plugin.version: 3.21.0
+  maven-source-plugin.version: 3.3.1
+  maven-surefire-plugin.version: 3.5.3
+  maven.compiler.release: ${java.version}
+  mockito.version: 5.17.0
+  project.build.sourceEncoding: ${project.encoding}
+  project.encoding: UTF-8
+  project.reporting.outputEncoding: ${project.encoding}
+  repository.url: ssh://git@github.com/svpace/maven-boot.git
+  slf4j.version: 2.0.17
+  sortpom-maven-plugin.order: groupId,artifactId
+  spotless-maven-plugin.version: 2.44.4
+  testcontainers.version: 1.21.0
+  versions-maven-plugin.version: 2.18.0
+  
+modules:
+  - spring
+  
+dependencyManagement:
+  import:
+    - org.assertj:assertj-bom: ${assertj.version}
+    - org.junit:junit-bom: ${junit-jupiter.version}
+    - org.mockito:mockito-bom: ${mockito.version}
+    - org.slf4j:slf4j-bom: ${slf4j.version}
+    - org.testcontainers:testcontainers-bom: ${testcontainers.version}
+  manage:
+    - org.awaitility:awaitility: ${awaitility.version}
+    - org.jspecify:jspecify: ${jspecify.version}
+    - org.mapstruct:mapstruct: ${mapstruct.version}
+    - org.projectlombok:lombok:
+        version: ${lombok.version}
+        scope: provided
+    - org.projectlombok:lombok-mapstruct-binding: ${lombok-mapstruct-binding.version}
+      
+dependencies:
+  main:
+    - org.jspecify:jspecify
+
+  provided:
+    - org.projectlombok:lombok
+
+  test:
+    - org.assertj:assertj-core
+    - org.junit.jupiter:junit-jupiter
+    - org.mockito:mockito-core
+    
+  
+build:
+  pluginManagement:
+    - com.diffplug.spotless:spotless-maven-plugin:
+      version: ${spotless-maven-plugin.version}
+      configuration:
+        java:
+          palantirJavaFormat: {}
+          indent:
+            tabs: true
+        pom:
+          sortPom:
+            encoding: ${project.build.sourceEncoding}
+            expandEmptyElements: false
+            lineSeparator: \n
+            nrOfIndentSpace: -1
+            sortDependencies: ${sortpom-maven-plugin.order}
+            sortDependencyExclusions: ${sortpom-maven-plugin.order}
+            sortExecutions: true
+            sortModules: true
+            sortPlugins: ${sortpom-maven-plugin.order}
+            sortProperties: true
+            spaceBeforeCloseEmptyElement: true
+        executions:
+          default:
+            phase: validate
+            goals:
+              - apply
+        
+    - org.apache.maven.plugins:
+      - maven-assembly-plugin: ${maven-assembly-plugin.version}
+      - maven-clean-plugin: ${maven-clean-plugin.version}
+      - maven-compiler-plugin:
+          version: ${maven-compiler-plugin.version}
+          configuration:
+            annotationProcessorPaths:
+              - org.projectlombok:lombok
+      - maven-dependency-plugin:
+          version: ${maven-dependency-plugin.version}
+          executions:
+            default:
+              goals:
+                -properties
+      - maven-deploy-plugin: ${maven-deploy-plugin.version}
+      - maven-enforcer-plugin:
+          version: ${maven-enforcer-plugin.version}
+          configuration:
+            rules:
+              requireJavaVersion:
+                version: ${java.version}
+              requireMavenVersion:
+                version: 3.9
+              requireNoRepositories:
+              requirePluginVersions:
+              banCircularDependencies:
+              requireEncoding:
+                encoding: ${project.build.sourceEncoding}
+                acceptAsciiSubset: true
+                excludes: .attach_*
+          dependencies:		
+            - org.codehaus.mojo:extra-enforcer-rules: ${extra-enforcer-rules.version}
+          executions:
+            enforce-maven:
+              goals:
+                - enforce
+      - maven-gpg-plugin:
+          version: ${maven-gpg-plugin.version}
+          configuration:
+            bestPractices: true
+            signer: bc
+          executions:
+            sign-artifacts:
+              goals:
+                - sign
+              phase: verify
+      - maven-install-plugin: ${maven-install-plugin.version}
+      - maven-invoker-plugin: ${maven-invoker-plugin.version}
+      - maven-jar-plugin:  ${maven-jar-plugin.version}
+      - maven-javadoc-plugin:
+          version: ${maven-javadoc-plugin.version}
+          executions:
+            goals:
+              - jar
+      - maven-release-plugin:
+          version: ${maven-release-plugin.version}
+          configuration:
+            autoVersionSubmodules: true
+            goals: deploy
+            tagNameFormat: v@{project.version}
+            preparationProfiles: release
+      - maven-resources-plugin: ${maven-resources-plugin.version}
+      - maven-shade-plugin: ${maven-shade-plugin.version}
+      - maven-site-plugin: ${maven-site-plugin.version}
+      - maven-source-plugin:
+          version: ${maven-source-plugin.version}
+          executions:
+            default:
+              goals:
+                - jar-no-fork
+      - maven-surefire-plugin:
+          version: ${maven-surefire-plugin.version}
+          configuration:
+            argLine: |
+              @{argLine}
+              -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
+              -Xshare:off
+    - org.codehaus.mojo:
+        - build-helper-maven-plugin: ${build-helper-maven-plugin.version}
+        - versions-maven-plugin:
+            version: ${versions-maven-plugin.version}
+            configuration:
+              ruleSet:
+                ignoreVersions:
+                  - type: regex
+                    version: .+[-\.](?i:SNAPSHOT|M|RC|CR|alpha|beta|preview)[-\.]?\d*
+    - org.sonatype.central:central-publishing-maven-plugin:
+          version: ${central-publishing-maven-plugin.version}
+          configuration:
+            publishingServerId: central
+  plugins:
+    - org.apache.maven.plugins:
+      - maven-dependency-plugin
+      - maven-enforcer-plugin
+      
+    
+profiles:
+  release:
+    build:
+      plugins:
+        - org.apache.maven.plugins:
+          - maven-gpg-plugin
+          - maven-javadoc-plugin
+          - maven-source-plugin
+        - org.sonatype.central:central-publishing-maven-plugin

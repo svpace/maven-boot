@@ -5,6 +5,7 @@
 	<artifactId>maven-boot</artifactId>
 	<version>1.2.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<name>maven-boot</name>
 	<description>A collection of Maven POM boilerplates designed to streamline
 		project initialization with up-to-date plugins and conventions</description>
 	<url>https://github.com/svpace/maven-boot</url>
@@ -39,12 +40,12 @@
 		<git-commit-id-maven-plugin.version>9.0.0</git-commit-id-maven-plugin.version>
 		<java.version>21</java.version>
 		<jspecify.version>1.0.0</jspecify.version>
-		<junit-jupiter.version>5.12.2</junit-jupiter.version>
+		<junit-jupiter.version>5.13.0</junit-jupiter.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<lombok.version>1.18.38</lombok.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
-		<maven-clean-plugin.version>3.4.1</maven-clean-plugin.version>
+		<maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 		<maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
 		<maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
@@ -62,15 +63,15 @@
 		<maven-source-plugin.version>3.3.1</maven-source-plugin.version>
 		<maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
 		<maven.compiler.release>${java.version}</maven.compiler.release>
-		<mockito.version>5.17.0</mockito.version>
+		<mockito.version>5.18.0</mockito.version>
 		<project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
 		<project.encoding>UTF-8</project.encoding>
 		<project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
 		<repository.url>ssh://git@github.com/svpace/maven-boot.git</repository.url>
 		<slf4j.version>2.0.17</slf4j.version>
 		<sortpom-maven-plugin.order>groupId,artifactId</sortpom-maven-plugin.order>
-		<spotless-maven-plugin.version>2.44.4</spotless-maven-plugin.version>
-		<testcontainers.version>1.21.0</testcontainers.version>
+		<spotless-maven-plugin.version>2.44.5</spotless-maven-plugin.version>
+		<testcontainers.version>1.21.1</testcontainers.version>
 		<versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 	</properties>
 	<dependencyManagement>
@@ -105,12 +106,6 @@
 				<version>${mapstruct.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.mapstruct</groupId>
-				<artifactId>mapstruct-processor</artifactId>
-				<version>${mapstruct.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-bom</artifactId>
 				<version>${mockito.version}</version>
@@ -139,6 +134,8 @@
 				<groupId>org.testcontainers</groupId>
 				<artifactId>testcontainers-bom</artifactId>
 				<version>${testcontainers.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -373,11 +370,9 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>${maven-surefire-plugin.version}</version>
 					<configuration>
-						<argLine>
-							@{argLine}
+						<argLine>@{argLine}
 							-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
-							-Xshare:off
-						</argLine>
+							-Xshare:off</argLine>
 					</configuration>
 				</plugin>
 				<plugin>
